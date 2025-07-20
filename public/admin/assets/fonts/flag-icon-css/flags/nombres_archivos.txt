@@ -1,0 +1,10 @@
+fonts/font-awesome/webfonts/fa-brands-400.eot
+fonts/font-awesome/webfonts/fa-brands-400.woff2
+fonts/font-awesome/webfonts/fa-brands-400.woff
+fonts/font-awesome/webfonts/fa-brands-400.ttf
+fonts/font-awesome/webfonts/fa-brands-400.svg
+fonts/font-awesome/webfonts/fa-solid-900.eot
+fonts/font-awesome/webfonts/fa-solid-900.woff2
+fonts/font-awesome/webfonts/fa-solid-900.woff
+fonts/font-awesome/webfonts/fa-solid-900.ttf
+fonts/font-awesome/webfonts/fa-solid-900.svg

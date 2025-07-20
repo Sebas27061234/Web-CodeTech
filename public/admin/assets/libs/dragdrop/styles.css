@@ -1,0 +1,62 @@
+.dragArea{
+    height: 200px;
+    border: 3px dashed #e0eafc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 10px auto;
+    width: 100%;
+    border-radius: 20px;
+    position: relative;
+}
+
+.dragArea .icondrag{
+    font-size: 45px;
+    color: #1683ff;
+}
+
+.dragArea .headerDrag{
+    font-size: 20px;
+    font-weight: 500;
+    color: #34495e;
+}
+
+.dragArea .supportDrag{
+    font-size: 15px;
+    color: gray;
+    margin: 10px 0 15px 0;
+}
+
+.dragArea .buttonDrag{
+    font-size: 20px;
+    font-weight: 500;
+    color: #1683ff;
+    cursor: pointer;
+}
+
+.dragArea.active{
+    border: 3px dashed #1683ff;
+}
+
+.dragArea .show_images{
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.dragArea .show_images .rowImg{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.dragArea .show_images .rowImg img{
+    margin-right: 12px;
+}
