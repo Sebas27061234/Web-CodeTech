@@ -58,14 +58,14 @@
       <div class="col-md-12 mb-3">
         <div class="row">
           <div class="col-md-4 d-flex align-items-center justify-content-end"><label class="fs-4 fw-semibold" for="titulol">Título:</label></div>
-          <div class="col-md-7"><input type="text" name="titulol" id="titulol" class="form-control" placeholder="Ingrese el título de la leccion"></div>
+          <div class="col-md-7"><input type="text" name="titulol" id="titulol" class="form-control" placeholder="Ingrese el título de la leccion" value="{{ $leccion->titulo }}"></div>
           <div class="col-md-1"></div>
         </div>
       </div>
       <div class="col-md-12 mb-3">
         <div class="row">
           <div class="col-md-4 d-flex align-items-start justify-content-end"><label class="fs-4 fw-semibold" for="contenidol">Contenido de la Leccion:</label></div>
-          <div class="col-md-7"><textarea class="form-control editorTiny" name="contenidol" id="contenidol" rows="10"></textarea></div>
+          <div class="col-md-7"><textarea class="form-control editorTiny" name="contenidol" id="contenidol" rows="10">{{ $leccion->contenido }}</textarea></div>
           <div class="col-md-1"></div>
         </div>
       </div>
@@ -97,7 +97,7 @@
         <div class="col-md-12 mb-3">
           <div class="row">
             <div class="col-md-4 d-flex align-items-center justify-content-end"><label class="fs-4 fw-semibold" for="titulor">Título:</label></div>
-            <div class="col-md-7"><input type="text" name="titulor" id="titulor" class="form-control" placeholder="Ingrese el título del recurso"></div>
+            <div class="col-md-7"><input type="text" name="titulor" id="titulor" class="form-control" placeholder="Ingrese el título del recurso" value="{{ $leccion->titulo }}"></div>
             <div class="col-md-1"></div>
           </div>
         </div>
@@ -113,11 +113,54 @@
             <div class="col-md-4 d-flex align-items-start justify-content-end"><label class="fs-4 fw-semibold" for="fileResource">Subir archivo:</label></div>
             <div class="col-md-7">
               <input type="file" name="fileResource" id="fileResource" class="form-control" accept=".py,.js,.css,.html,.cs,.ts,.php,.sql,.csv,.txt,.pdf,.docx,.pptx,.xlsx" hidden>
+              @if ($filesLection)
+              <div class="d-flex flex-column justify-content-center align-items-start px-6 py-6 border border-3 rounded-3 text-center w-100" id="dragFileCont" style="--bs-border-style: dashed;">
+                <div class="flex-column justify-content-center align-items-center position-relative file-icon-container">
+                  <div class="icon-close position-absolute text-danger" style="top: 5px;right: 5px;cursor: pointer;z-index: 1;" id="closeIconFile" onclick="deleteFile()">
+                    <i class="fa-solid fa-square-xmark fs-4"></i>
+                  </div>
+                  <div class="file-container position-relative">
+                    <i class="fa-light fa-file icon-file-color" style="font-size: 110px;margin-left: 10px;margin-top: 10px;margin-bottom: 10px;"></i>
+                    @php
+                      $colors = [
+                        "py"=>"fa-brands fa-python",
+                        "js"=>"fa-brands fa-square-js",
+                        "css"=>"fa-brands fa-css",
+                        "html"=>"fa-brands fa-html5",
+                        "cs"=>"fa-solid fa-code-simple",
+                        "ts"=>"fa-brands fa-square-js",
+                        "php"=>"fa-solid fa-elephant",
+                        "sql"=>"fa-solid fa-database",
+                        "csv"=>"fa-solid fa-table-cells",
+                        "txt"=>"fa-solid fa-bars",
+                        "pdf"=>"ti ti-brand-adobe",
+                        "docx"=>"fa-solid fa-align-left",
+                        "pptx"=>"fa-solid fa-presentation-screen",
+                        "xlsx"=>"fa-solid fa-chart-column"
+                      ]
+                    @endphp
+                    <i class="{{ $colors[$filesLection->extension] }} position-absolute {{ $filesLection->extension }}-icon-color" style="left: 42%;bottom: 21%;font-size: 35px;"></i>
+                  </div>
+                  <div class="d-flex flex-column justify-content-center align-items-center" style="margin-left: 10px;margin-top: -5px;">
+                    @php
+                      $fileName = substr($filesLection->nombre, 0, 12);
+                    @endphp
+                    <p class="fs-3 text-muted mb-0">{{ $fileName }} ...</p>
+                    <span class="fs-2 text-muted mb-0">Ext ({{ $filesLection->extension }})</span>
+                    <span class="fs-2 text-muted mb-0">Size ({{ $filesLection->tamaño }})</span>
+                  </div>
+                  <input type="text" name="sizeFile" id="sizeFile" value="{{ $filesLection->tamaño }}" hidden>
+                  <input type="text" name="nameFile" id="nameFile" value="{{ $filesLection->nombre }}" hidden>
+                  <input type="text" name="extFile" id="extFile" value="{{ $filesLection->extension }}" hidden>
+                </div>
+              </div>
+              @else
               <div class="d-flex flex-column justify-content-center align-items-center px-6 py-10 border border-3 rounded-3 text-center w-100" id="dragFileCont" style="--bs-border-style: dashed;">
                 <i class="fa-solid fa-cloud-arrow-up text-muted fs-11"></i>
                 <p class="fs-4 text-muted mb-0">Arrastra y suelta para cargar el archivo</p>
                 <p class="fs-4 text-muted mb-0">o haga <label for="fileResource" class="fw-semibold" style="cursor: pointer;">click</label> para seleccionarlo</p>
               </div>
+              @endif
             </div>
             <div class="col-md-1"></div>
           </div>
@@ -533,7 +576,7 @@
     dataTransfer.items.add(files[0]);
     fileInput.files = dataTransfer.files;
     const divElementFile = `<div class="flex-column justify-content-center align-items-center position-relative file-icon-container">
-                  <div class="icon-close position-absolute text-danger" style="top: 5px;right: 5px;cursor: pointer;z-index: 1;" id="closeIconFile">
+                  <div class="icon-close position-absolute text-danger" style="top: 5px;right: 5px;cursor: pointer;z-index: 1;" id="closeIconFile" onclick="deleteFile()">
                     <i class="fa-solid fa-square-xmark fs-4"></i>
                   </div>
                   <div class="file-container position-relative">
@@ -552,17 +595,17 @@
     dropArea.innerHTML = divElementFile;
     dropArea.classList.remove('align-items-center','py-10');
     dropArea.classList.add('align-items-start','py-6');
-    const closeIconFile = document.getElementById('closeIconFile');
-    closeIconFile.addEventListener('click', () => {
-      dropArea.innerHTML = `<i class="fa-solid fa-cloud-arrow-up text-muted fs-11"></i>
+  };
+
+  function deleteFile(){
+    dropArea.innerHTML = `<i class="fa-solid fa-cloud-arrow-up text-muted fs-11"></i>
                             <p class="fs-4 text-muted mb-0">Arrastra y suelta para cargar el archivo</p>
                             <p class="fs-4 text-muted mb-0">o haga <label for="fileResource" class="fw-semibold" style="cursor: pointer;">click</label> para seleccionarlo</p>`;
       const dataTransfer = new DataTransfer();
       fileInput.files = dataTransfer.files;
       dropArea.classList.remove('align-items-start','py-6');
       dropArea.classList.add('align-items-center','py-10');
-    });
-  };
+  }
 
   ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
     dropArea.addEventListener(eventName, prevents, false);

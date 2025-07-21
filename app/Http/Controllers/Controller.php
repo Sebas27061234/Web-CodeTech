@@ -20,7 +20,7 @@ abstract class Controller
                         "url" => route('admin.blog.categoria.index'),
                     ],
                     [
-                        "nombre" => "Entradas",
+                        "nombre" => "Posts",
                         "url" => route('admin.blog.posts.index'),
                     ],
                     [

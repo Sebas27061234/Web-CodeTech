@@ -116,8 +116,9 @@ class Cursos_ExtrasController extends Controller
         $id = $request->query('id');
         $tipo = $request->query('tipo');
         $leccion = Cursos_Lecciones::find($id);
+        $filesLection = Cursos_Lecciones_Files::where('idLeccion','=',$id)->first();
         $nav = $this->sections();
-        return view('admin.cursos.cursos.leccion.edit',compact('leccion','tipo','nav','curso_id'));
+        return view('admin.cursos.cursos.leccion.edit',compact('leccion','tipo','nav','curso_id','filesLection'));
     }
 
     public function updateLectionLec(Request $request){

@@ -11,20 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tienda_productos', function (Blueprint $table) {
-            $table->id('idProducto');
-            $table->string('sku',256);
+        Schema::create('blog_posts', function (Blueprint $table) {
+            $table->id('idPost');
+            $table->string('slug',255);
             $table->string('titulo',512);
             $table->text('descripcion');
             $table->text('contenido');
             $table->date('fecha_publicacion');
-            $table->decimal('precio',11,4);
             $table->string('imagen',1024);
-            $table->text('galeria_imagenes');
-            $table->text('descripcion_imagenes');
-            $table->string('demo',512);
-            $table->string('archivo',1024);
+            $table->unsignedBigInteger('idAutor');
+            $table->string('idVideo');
             $table->boolean('estado');
+
+            $table->foreign('idAutor')->references('idAutor')->on('blog_autores')->onDelete('cascade');
+            $table->foreign('idVideo')->references('idVideo')->on('blog_videos');
         });
     }
 
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tienda_productos');
+        Schema::dropIfExists('blog_posts');
     }
 };

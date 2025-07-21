@@ -45166,6 +45166,11 @@ body .apexcharts-tooltip-title {
     }
 }
 
+.table-responsive .dataTables_wrapper{
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .table-responsive .dataTables_wrapper .dataTables_length select {
     padding-top: .25rem;
     padding-bottom: .25rem;
@@ -45177,7 +45182,32 @@ body .apexcharts-tooltip-title {
 }
 
 .table-responsive .dataTables_wrapper .dataTables_filter {
-    margin-bottom: 25px
+    margin-bottom: 15px;
+    width: 50%;
+    flex: 0 0 auto;
+}
+
+.table-responsive .dataTables_wrapper .dataTables_length {
+    width: 50%;
+    flex: 0 0 auto;
+    margin-bottom: 15px;
+    padding-top: 8px;
+}
+
+.table-responsive .dataTables_wrapper .dataTable {
+    width: 100%;
+    flex: 0 0 auto;
+}
+
+.table-responsive .dataTables_wrapper .dataTables_info {
+    width: 50%;
+    flex: 0 0 auto;
+}
+
+.table-responsive .dataTables_wrapper .dataTables_paginate{
+    width: 50%;
+    flex: 0 0 auto;
+    padding-top: .85em;
 }
 
 .table-responsive .dataTables_wrapper .dataTables_filter input {

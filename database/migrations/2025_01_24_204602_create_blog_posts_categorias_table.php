@@ -11,10 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('blog_posts_categorias', function (Blueprint $table) {
-            $table->foreignId('idPost')->constrained('blog_posts', 'idPost');
-            $table->foreignId('idCategoria')->constrained('blog_categorias', 'idCategoria');
-            $table->primary(['idPost', 'idCategoria']);
+        Schema::create('blog_videos', function (Blueprint $table) {
+            $table->string('idVideo')->primary();
+            $table->string('titulo',255);
+            $table->text('video');
+            $table->text('poster');
+            $table->text('subtitulos')->nullable();
+            $table->unsignedBigInteger('idListaVideo');
+            $table->boolean('estado');
+
+            $table->foreign('idListaVideo')->references('idVideo')->on('blog_lista_videos')->onDelete('cascade');
         });
     }
 
@@ -23,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('blog_posts_categorias');
+        Schema::dropIfExists('blog_videos');
     }
 };
