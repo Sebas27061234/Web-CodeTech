@@ -269,11 +269,11 @@
                                 <input type="text" name="pregEnunciado" id="pregEnunciado" class="form-control" placeholder="Pregunta 00">
                               </div>
                               <div class="col-lg-3">
-                                <select class="form-select" name="pregTipo" id="pregTipo">
-                                  <option value="1">Opción Múltiple</option>
-                                  <option value="2">Verdadero/Falso</option>
-                                  <option value="3">Ordenar</option>
-                                  <option value="4">Listas desplegables múltiples</option>
+                                <select class="form-select" name="pregTipo" id="pregTipo" onchange="CambioPregunta(this.value)">
+                                  <option value="OpMult">Opción Múltiple</option>
+                                  <option value="VoF">Verdadero/Falso</option>
+                                  <option value="Ord">Ordenar</option>
+                                  <option value="ListMult">Listas desplegables múltiples</option>
                                 </select>
                               </div>
                               <div class="col-lg-4"></div>
@@ -290,7 +290,7 @@
                                 <label class="fs-4 fw-semibold mb-1" for="pregEnunciado">Enunciado:</label>
                                 <textarea class="form-control editorTinyE" name="pregEnunciado" id="pregEnunciado"></textarea>
                               </div>
-                              <div class="col-lg-12 mb-3 d-flex flex-column justify-content-center align-items-start">
+                              <div class="col-lg-12 mb-3 d-flex flex-column justify-content-center align-items-start" id="cont_respuestas">
                                 <label class="fs-4 fw-semibold mb-1">Respuestas:</label>
                                 <ul class="w-100" id="lista_respuestas">
                                   <li id="resp1">
@@ -756,7 +756,7 @@
         li.style.setProperty('--bs-border-opacity', '0.3');
         const icon = li.querySelector('label i');
         if (icon) {
-          icon.classList.remove('fa-circle-check', 'text-success', 'fa-regular');
+          icon.classList.remove('fa-circle-check', 'text-success', 'fa-solid');
           icon.classList.add('fa-circle-minus', 'text-muted', 'fa-regular');
         }
       });
@@ -768,10 +768,54 @@
       const icon = selectedLi.querySelector('label i');
       if (icon) {
         icon.classList.remove('fa-circle-minus', 'text-muted', 'fa-regular');
-        icon.classList.add('fa-circle-check', 'text-success', 'fa-regular');
+        icon.classList.add('fa-circle-check', 'text-success', 'fa-solid');
       }
     });
   });
+
+  function CambioPregunta(tipoPreg) {
+    var contenedor = document.getElementById('cont_respuestas');
+    if (tipoPreg == 'VoF'){
+      var labelText = document.querySelector('#cont_respuestas label');
+      var lista_respuestas = document.getElementById('lista_respuestas');
+      lista_respuestas.remove();
+      var addAnswers = document.querySelector('#cont_respuestas div');
+      if (addAnswers) addAnswers.remove();
+
+      var newAnswersList = '<ul class="w-100" id="lista_respuestas"><li id="resp1"><div class="border border-success w-100 rounded-4 px-3 py-3 mb-2 d-flex align-items-center gap-3" style="--bs-border-opacity: 1"><input type="radio" name="correct_option" id="opt1" value="1" class="d-none"><label for="opt1" class="mb-0 me-2" style="cursor: pointer;"><i class="fa-solid fa-circle-check text-success fs-5"></i></label><input type="text" class="form-control w-40" name="respuesta1" id="respuesta1" placeholder="Opción 1" value="Verdadero"></div></li><li id="resp2"><div class="border border-muted w-100 rounded-4 px-3 py-3 mb-2 d-flex align-items-center gap-3" style="--bs-border-opacity: 0.3"><input type="radio" name="correct_option" id="opt2" value="0" class="d-none"><label for="opt2" class="mb-0 me-2" style="cursor: pointer;"><i class="fa-regular fa-circle-minus text-muted fs-5"></i></label><input type="text" class="form-control w-40" name="respuesta2" id="respuesta2" placeholder="Opción 2" value="Falso"></div></li></ul>';
+
+      contenedor.innerHTML += newAnswersList;
+    } else if (tipoPreg == 'OpMult'){
+      var labelText = document.querySelector('#cont_respuestas label');
+      var lista_respuestas = document.getElementById('lista_respuestas');
+      lista_respuestas.remove();
+      var addAnswers = document.querySelector('#cont_respuestas div');
+      if (addAnswers) addAnswers.remove();
+
+      var newAnswersList = '<ul class="w-100" id="lista_respuestas"><li id="resp1"><div class="border border-muted w-100 rounded-4 px-3 py-3 mb-2 d-flex align-items-center gap-3" style="--bs-border-opacity: 0.3"><input type="radio" name="correct_option" id="opt1" value="0" class="d-none"><label for="opt1" class="mb-0 me-2" style="cursor: pointer;"><i class="fa-regular fa-circle-minus text-muted fs-5"></i></label><input type="text" class="form-control w-40" name="respuesta1" id="respuesta1" placeholder="Opción 1"><button type="button" class="btn btn-outline-danger btn-sm ms-auto" onclick="eliminarRespuesta("resp1")"><i class="fa-solid fa-trash fs-2"></i></button></div></li><li id="resp2"><div class="border border-muted w-100 rounded-4 px-3 py-3 mb-2 d-flex align-items-center gap-3" style="--bs-border-opacity: 0.3"><input type="radio" name="correct_option" id="opt2" value="0" class="d-none"><label for="opt2" class="mb-0 me-2" style="cursor: pointer;"><i class="fa-regular fa-circle-minus text-muted fs-5"></i></label><input type="text" class="form-control w-40" name="respuesta2" id="respuesta2" placeholder="Opción 2"><button type="button" class="btn btn-outline-danger btn-sm ms-auto" onclick="eliminarRespuesta("resp2")"><i class="fa-solid fa-trash fs-2"></i></button></div></li><li id="resp3"><div class="border border-muted w-100 rounded-4 px-3 py-3 mb-2 d-flex align-items-center gap-3" style="--bs-border-opacity: 0.3"><input type="radio" name="correct_option" id="opt3" value="0" class="d-none"><label for="opt3" class="mb-0 me-2" style="cursor: pointer;"><i class="fa-regular fa-circle-minus text-muted fs-5"></i></label><input type="text" class="form-control w-40" name="respuesta3" id="respuesta3" placeholder="Opción 3"><button type="button" class="btn btn-outline-danger btn-sm ms-auto" onclick="eliminarRespuesta("resp3")"><i class="fa-solid fa-trash fs-2"></i></button></div></li></ul>';
+
+      contenedor.innerHTML += newAnswersList;
+      contenedor.innerHTML += '<div class="w-100 py-1 mb-2 d-flex align-items-center justify-content-center"><button type="button" class="btn btn-outline-dark btn-sm ms-auto" id="addRespuestaBtn"><i class="fa-solid fa-plus me-1"></i> Agregar Respuesta</button></div>';
+
+      document.getElementById('addRespuestaBtn').addEventListener('click', () => {
+        const listaRespuestas = document.getElementById('lista_respuestas');
+        const numRespuestas = listaRespuestas.children.length + 1;
+        const newRespuesta = `<li id="resp${numRespuestas}">
+                                <div class="border border-muted w-100 rounded-4 px-3 py-3 mb-2 d-flex align-items-center gap-3" style="--bs-border-opacity: 0.3">
+                                  <input type="radio" name="correct_option" id="opt${numRespuestas}" value="0" class="d-none">
+                                  <label for="opt${numRespuestas}" class="mb-0 me-2" style="cursor: pointer;">
+                                    <i class="fa-regular fa-circle-minus text-muted fs-5"></i>
+                                  </label>
+                                  <input type="text" class="form-control w-40" name="respuesta${numRespuestas}" id="respuesta${numRespuestas}" placeholder="Opción ${numRespuestas}">
+                                  <button type="button" class="btn btn-outline-danger btn-sm ms-auto" onclick="eliminarRespuesta('resp${numRespuestas}')">
+                                    <i class="fa-solid fa-trash fs-2"></i>
+                                  </button>
+                                </div>
+                              </li>`;
+        listaRespuestas.insertAdjacentHTML('beforeend', newRespuesta);
+      });
+    }
+  }
 </script>
 @session('success')
   @if (session('success') == 'Leccion creada')
